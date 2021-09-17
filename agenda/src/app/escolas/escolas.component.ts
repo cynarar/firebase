@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
 import { iEscola } from '../core/models/escola.model';
 import { EscolaService } from '../core/services/escola.service';
 
@@ -9,12 +10,14 @@ import { EscolaService } from '../core/services/escola.service';
 })
 export class EscolasComponent implements OnInit, OnDestroy {
   escola!: iEscola;
+  listaEscolas$: Observable<Array<iEscola>> = this.escolaService.escolas;
 
   constructor(private readonly escolaService: EscolaService) { 
     this.escola = {
+      id: '1',
       username: 'batista',
       nome: 'Colégio Batista Santos Dumont',
-      endereço: 'Desconhecido',
+      endereco: 'Desconhecido',
       cidade: 'Fortaleza',
       estado: 'CE'
     }
@@ -30,6 +33,10 @@ export class EscolasComponent implements OnInit, OnDestroy {
   salvar() {
     console.log('chamou o componente');
     this.escolaService.create(this.escola).subscribe( res => {});
+  }
+
+  apagar(escola: iEscola) {
+    this.escolaService.destroy(escola).subscribe( res => {});
   }
 
 }

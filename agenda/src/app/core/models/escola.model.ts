@@ -1,8 +1,8 @@
 export interface iEscola {
-    id?: number;
+    id: string;
     username: string;
     nome: string;
-    endereço: string;
+    endereco: string;
     cidade: string;
     estado: string;
 }

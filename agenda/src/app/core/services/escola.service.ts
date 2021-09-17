@@ -11,8 +11,12 @@ export class EscolaService {
     escolas: Observable<iEscola[]>;
 
     constructor(private afs: AngularFirestore) { 
-        this.escolasCollection = afs.collection<iEscola>('escolas');
+        this.escolasCollection = this.afs.collection<iEscola>('escolas');
         this.escolas = this.escolasCollection.valueChanges({ idField: 'id' });
+    }
+
+    show(id: string) {
+        return this.escolasCollection.doc(id).valueChanges({ idField: 'id' });
     }
 
     create(escola: iEscola): Observable<DocumentReference> {
@@ -22,8 +26,19 @@ export class EscolaService {
 
     update(escola: iEscola): Observable<void> {
         return from(
-            this.afs.doc<iEscola>(`escolas/${escola.id}`).update({
-          }),
+            this.escolasCollection.doc(escola.id).update({
+                username: escola.username,
+                nome: escola.nome,
+                endereco: escola.endereco,
+                cidade: escola.cidade,
+                estado: escola.estado
+          })
         );
+    }
+
+    destroy(escola: iEscola): Observable<void> {
+        return from(
+            this.escolasCollection.doc(escola.id).delete()
+        )
     }
 }

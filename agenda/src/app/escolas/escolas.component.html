@@ -1,2 +1,9 @@
-<p>Salvar escola</p>
-<button (click)="salvar()">Salvar</button>
+<h2>Escolas</h2>
+<ng-container *ngIf="listaEscolas$ | async as listaEscolas">
+    <div *ngFor="let escola of listaEscolas">
+        <p>{{escola.nome}}</p>
+        <button (click)="apagar(escola)">Deletar</button>
+    </div>
+</ng-container>
+
+<button (click)="salvar()">Nova escola</button>
